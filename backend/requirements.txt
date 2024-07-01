@@ -1,0 +1,20 @@
+# Core FastAPI and ASGI server
+fastapi
+uvicorn[standard]
+
+# Database (choose as needed)
+databases[postgresql]   
+sqlalchemy
+
+# Authentication
+passlib[bcrypt]
+python-jose[cryptography]
+
+# Validation and serialization
+pydantic
+
+# Testing
+pytest
+
+# Env variables
+python-dotenv
