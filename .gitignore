@@ -6,6 +6,8 @@ venv/
 *.db
 *.sqlite3
 /backend/create_backend_structure.sh
+Barnes Industries.html
+Barnes_Industries_files
 
 # dependencies
 frontend/node_modules
