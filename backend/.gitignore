@@ -1,3 +1,7 @@
 
 
 backend/.env.local
+.vscode/
+assets/
+py.py
+varels_db.session.sql
