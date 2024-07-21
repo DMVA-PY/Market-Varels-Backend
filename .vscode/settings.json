@@ -1,0 +1,18 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_db",
+            "database": "varels_db_psql",
+            "username": "varels"
+        },
+        {
+            "python.autoComplete.extraPaths": ["./path_to_your_project"]
+        }
+    ]
+
+}
