@@ -1,4 +1,4 @@
-backend/.env.local
+.env.local
 .vscode/
 assets/
 py.py
