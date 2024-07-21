@@ -3,3 +3,5 @@ backend/.env.local
 assets/
 py.py
 varels_db.session.sql
+../.vscode/
+../assets/
