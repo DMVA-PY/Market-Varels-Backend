@@ -11,7 +11,90 @@
             "username": "varels"
         },
         {
-            "python.autoComplete.extraPaths": ["./path_to_your_project"]
+            "python.autoComplete.extraPaths": [
+                "./path_to_your_project"
+            ]
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_db",
+            "database": "varels_db",
+            "username": "varels_db"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_database",
+            "database": "varels_database_psql",
+            "username": "varels_database_user"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_database_session",
+            "database": "varels_database_psql",
+            "username": "varels_database_user"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_db",
+            "database": "varels_database_psql",
+            "username": "varels_database_user"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_database_psql",
+            "database": "varels_database_psql",
+            "username": "varels_database_user"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_database1",
+            "database": "varels_database_psql",
+            "username": "varels_database_user"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "localhost",
+            "database": "varels_database_psql",
+            "username": "varels_database_user",
+            "group": "idk"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "varels_db_psql",
+            "database": "varels_database_psql",
+            "username": "varels_database_user"
         }
     ]
 
