@@ -40,6 +40,7 @@ class UserAccountManager(BaseUserManager):
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15, default='', blank=True)
     email = models.EmailField(unique=True, max_length=255)
 
     is_active = models.BooleanField(default=True)
