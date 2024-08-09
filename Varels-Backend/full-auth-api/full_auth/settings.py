@@ -20,6 +20,7 @@ import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+""" APPEND_SLASH = False  """
 
 
 dotenv_file = BASE_DIR / '.env.local'
@@ -122,7 +123,6 @@ AWS_SES_REGION_NAME = getenv('AWS_SES_REGION_NAME')
 AWS_SES_REGION_ENDPOINT = f'email.{AWS_SES_REGION_NAME}.amazonaws.com'
 AWS_SES_FROM_EMAIL = getenv('AWS_SES_FROM_EMAIL')
 USE_SES_V2 = True
-
 """ 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -242,8 +242,9 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 CORS_ALLOWED_ORIGINS = getenv(
     'CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000'
+    'http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001'
 ).split(',')
+
 CORS_ALLOW_CREDENTIALS = True
 
 # Default primary key field type

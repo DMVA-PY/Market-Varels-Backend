@@ -3,12 +3,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from djoser.social.views import ProviderAuthView
+from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView
 )
+from .models import UserAccount  # Adjust the import path as necessary
 
+
+# Handles authentication through a social provider (like Google, Facebook) using Djoser’s ProviderAuthView 
 class CustomProviderAuthView(ProviderAuthView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
@@ -38,10 +42,12 @@ class CustomProviderAuthView(ProviderAuthView):
 
         return response
 
-
+# Handles the process of obtaining a new pair of access and refresh tokens.
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
+        user = UserAccount.objects.get(email=request.data['email'])
+        response.data.update({'first_name': user.first_name})
 
         if response.status_code == 200:
             access_token = response.data.get('access')
@@ -66,9 +72,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 samesite=settings.AUTH_COOKIE_SAMESITE
             )
 
-        return response
-
-
+        return response 
+ 
+# Handles refreshing the access token using the refresh token.
 class CustomTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get('refresh')
@@ -93,7 +99,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 
         return response
 
-
+# Verifies the validity of the access token.
 class CustomTokenVerifyView(TokenVerifyView):
     def post(self, request, *args, **kwargs):
         access_token = request.COOKIES.get('access')
@@ -103,7 +109,7 @@ class CustomTokenVerifyView(TokenVerifyView):
 
         return super().post(request, *args, **kwargs)
 
-
+# Handles logging out the user by clearing the tokens.
 class LogoutView(APIView):
     def post(self, request, *args, **kwargs):
         response = Response(status=status.HTTP_204_NO_CONTENT)

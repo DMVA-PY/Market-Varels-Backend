@@ -18,7 +18,7 @@ class UserAccountManager(BaseUserManager):
             email=email,
             **kwargs
         )
- 
+
         user.set_password(password)
         user.save(using=self._db)
 
@@ -37,10 +37,10 @@ class UserAccountManager(BaseUserManager):
 
         return user
 
+
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15, default='', blank=True)
     email = models.EmailField(unique=True, max_length=255)
 
     is_active = models.BooleanField(default=True)
@@ -54,3 +54,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+""" 
+UserAccount: Holds the user's data.
+UserAccountManager: Provides methods for managing and creating UserAccount instances. 
+"""
