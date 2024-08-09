@@ -1,15 +1,19 @@
+from .models import UserAccount  # Adjust the import path as necessary
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from djoser.social.views import ProviderAuthView
+
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from djoser.social.views import ProviderAuthView
-from django.contrib.auth import get_user_model
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView
 )
-from .models import UserAccount  # Adjust the import path as necessary
 
 
 # Handles authentication through a social provider (like Google, Facebook) using Djoser’s ProviderAuthView 
@@ -42,38 +46,6 @@ class CustomProviderAuthView(ProviderAuthView):
 
         return response
 
-# Handles the process of obtaining a new pair of access and refresh tokens.
-class CustomTokenObtainPairView(TokenObtainPairView):
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        user = UserAccount.objects.get(email=request.data['email'])
-        response.data.update({'first_name': user.first_name})
-
-        if response.status_code == 200:
-            access_token = response.data.get('access')
-            refresh_token = response.data.get('refresh')
-
-            response.set_cookie(
-                'access',
-                access_token,
-                max_age=settings.AUTH_COOKIE_MAX_AGE,
-                path=settings.AUTH_COOKIE_PATH,
-                secure=settings.AUTH_COOKIE_SECURE,
-                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE
-            )
-            response.set_cookie(
-                'refresh',
-                refresh_token,
-                max_age=settings.AUTH_COOKIE_MAX_AGE,
-                path=settings.AUTH_COOKIE_PATH,
-                secure=settings.AUTH_COOKIE_SECURE,
-                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
-                samesite=settings.AUTH_COOKIE_SAMESITE
-            )
-
-        return response 
- 
 # Handles refreshing the access token using the refresh token.
 class CustomTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
@@ -117,3 +89,50 @@ class LogoutView(APIView):
         response.delete_cookie('refresh')
 
         return response
+
+# EXPERIMENTAL custom view
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Custom claims, you can add other fields here as well
+        token['first_name'] = user.first_name
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['first_name'] = self.user.first_name
+        return data
+    
+# Handles the process of obtaining a new pair of access and refresh tokens.
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        if response.status_code == 200:
+            access_token = response.data.get('access')
+            refresh_token = response.data.get('refresh')
+
+            response.set_cookie(
+                'access',
+                access_token,
+                max_age=settings.AUTH_COOKIE_MAX_AGE,
+                path=settings.AUTH_COOKIE_PATH,
+                secure=settings.AUTH_COOKIE_SECURE,
+                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
+                samesite=settings.AUTH_COOKIE_SAMESITE
+            )
+            response.set_cookie(
+                'refresh',
+                refresh_token,
+                max_age=settings.AUTH_COOKIE_MAX_AGE,
+                path=settings.AUTH_COOKIE_PATH,
+                secure=settings.AUTH_COOKIE_SECURE,
+                httponly=settings.AUTH_COOKIE_HTTP_ONLY,
+                samesite=settings.AUTH_COOKIE_SAMESITE
+            )
+
+        return response 
+ 
